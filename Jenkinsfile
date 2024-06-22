@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         registryCredential = 'docker' // Replace with your Docker registry credentials ID
-        dockerImage = 'your-docker-image-name'       // Replace with your Docker image name
+        dockerImage = 'amazonlinux'       // Replace with your Docker image name
         dockerTag = 'latest'                         // Replace with your desired Docker image tag
         dockerfilePath = './Dockerfile'              // Path to your Dockerfile
     }
