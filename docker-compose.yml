@@ -1,15 +1,36 @@
-version: '3'
+version: '3.8'
+
 services:
-  web:
-    image: my-web-app
-    build: .
+  db:
+    image: mysql:8.0.27
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+    volumes:
+      - db_data:/var/lib/mysql
+
+  wordpress:
+    image: wordpress:latest
     ports:
-      - "8080:8080"
+      - "80:80"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
     depends_on:
       - db
-  db:
-    image: postgres:13
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: mydatabase
+
+  app:
+    image: maven:3.8.6-openjdk-11
+    command: sleep infinity
+    volumes:
+      - .:/app
+    working_dir: /app
+    depends_on:
+      - db
+
+volumes:
+  db_data:
